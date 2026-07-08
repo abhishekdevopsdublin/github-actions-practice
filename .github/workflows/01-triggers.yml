@@ -1,0 +1,36 @@
+name: 01 - Trigger Examples
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.js'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.js'
+
+  workflow_dispatch:
+
+jobs:
+  show-trigger-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show event type
+        run: |
+          echo "========================================="
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "========================================="
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List JS files
+        run: |
+          echo "JS files in repo:"
+          find . -name "*.js" 2>/dev/null || echo "No JS files yet"
