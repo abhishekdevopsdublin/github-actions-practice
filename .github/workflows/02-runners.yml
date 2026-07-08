@@ -1,0 +1,48 @@
+name: 02 - Runner Examples
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # Job 1: Ubuntu Runner
+  ubuntu-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Ubuntu runner info
+        run: |
+          echo "===== GITHUB-HOSTED UBUNTU RUNNER ====="
+          echo ""
+          echo "🖥️  Operating System:"
+          uname -a
+          echo ""
+          echo "🔧 CPU Cores: $(nproc)"
+          echo "💾 Memory: $(free -h | grep Mem | awk '{print $2}')"
+          echo "💿 Disk Free: $(df -h / | tail -1 | awk '{print $4}')"
+          echo ""
+          echo "📍 Runner Details:"
+          echo "   Name: ${{ runner.name }}"
+          echo "   OS: ${{ runner.os }}"
+          echo "   Arch: ${{ runner.arch }}"
+          echo ""
+          echo "🛠️  Pre-installed tools:"
+          echo "   Git: $(git --version)"
+          echo "   Docker: $(docker --version)"
+          echo "   Node: $(node --version)"
+          echo "   Python: $(python3 --version)"
+
+  # Job 2: Windows Runner
+  windows-runner:
+    runs-on: windows-latest
+    steps:
+      - name: Show Windows runner info
+        shell: pwsh
+        run: |
+          Write-Host "===== GITHUB-HOSTED WINDOWS RUNNER ====="
+          Write-Host ""
+          Write-Host "🖥️  Operating System:"
+          Get-ComputerInfo | Select-Object WindowsVersion, OsArchitecture
+          Write-Host ""
+          Write-Host "📍 Runner Details:"
+          Write-Host "   Name: ${{ runner.name }}"
+          Write-Host "   OS: ${{ runner.os }}"
+          Write-Host "   Arch: ${{ runner.arch }}"
